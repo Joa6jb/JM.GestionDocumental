@@ -20,6 +20,7 @@ const inquirySchema = z.object({
   email: z.string().trim().email().max(255),
   phone: z.string().trim().min(6).max(30).regex(/^[+\d\s().-]+$/),
   service: z.enum(["Ciudadanía española", "Apostillado de documentos", "Traducciones y legalizaciones", "Otros trámites"]),
+  message: z.string().trim().max(2000).optional(),
 });
 
 export const Route = createFileRoute("/")({
@@ -53,16 +54,16 @@ function Index() {
     const fields = new FormData(form);
     const result = inquirySchema.safeParse({
       name: fields.get("name"), surname: fields.get("surname"), email: fields.get("email"),
-      phone: fields.get("phone"), service: selectedService,
+      phone: fields.get("phone"), service: selectedService, message: fields.get("message"),
     });
     if (!result.success) {
       setError("Revisá los datos e indicá el tipo de trámite antes de continuar.");
       return;
     }
     setError("");
-    const { name, surname, email, phone, service } = result.data;
+    const { name, surname, email, phone, service, message } = result.data;
     const subject = `Consulta por ${service} — ${name} ${surname}`;
-    const body = `Hola, quiero consultar por un trámite.\n\nNombre: ${name}\nApellido: ${surname}\nCorreo: ${email}\nTeléfono: ${phone}\nTipo de trámite: ${service}\n`;
+    const body = `Hola, quiero consultar por un trámite.\n\nNombre: ${name}\nApellido: ${surname}\nCorreo: ${email}\nTeléfono: ${phone}\nTipo de trámite: ${service}${message ? `\n\nMensaje:\n${message}` : ""}\n`;
     window.location.href = `mailto:${companyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
@@ -142,6 +143,7 @@ function Index() {
                 <label className="block text-xs font-semibold">Correo electrónico <Input name="email" type="email" autoComplete="email" required maxLength={255} className="mt-2 h-12 rounded-none border-primary-foreground/35 bg-background text-foreground" placeholder="tu@correo.com" /></label>
                 <label className="block text-xs font-semibold">Número telefónico <Input name="phone" type="tel" autoComplete="tel" required maxLength={30} className="mt-2 h-12 rounded-none border-primary-foreground/35 bg-background text-foreground" placeholder="+54 11 1234 5678" /></label>
                 <label className="block text-xs font-semibold sm:col-span-2">Tipo de trámite <select name="service" required value={selectedService} onChange={(event) => setSelectedService(event.target.value)} className="mt-2 h-12 w-full rounded-none border border-primary-foreground/35 bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"><option value="">Seleccioná un trámite</option>{services.map((service) => <option key={service.title} value={service.title}>{service.title}</option>)}</select></label>
+                <label className="block text-xs font-semibold sm:col-span-2">Mensaje (opcional) <textarea name="message" rows={4} maxLength={2000} placeholder="Contanos más sobre tu consulta o si hay datos que debamos tener en cuenta." className="mt-2 w-full rounded-none border border-primary-foreground/35 bg-background px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" /></label>
               </div>
               {error && <p role="alert" className="mt-4 text-sm text-primary-foreground">{error}</p>}
               <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-sm text-xs leading-relaxed opacity-75">Al continuar, se abrirá tu correo con la consulta preparada. Revisá y enviá el mensaje desde allí.</p><Button type="submit" variant="secondary" size="lg" className="h-12 w-full shrink-0 rounded-none px-6 text-xs font-semibold uppercase tracking-wider sm:w-auto">Preparar consulta <ArrowRight /></Button></div>
