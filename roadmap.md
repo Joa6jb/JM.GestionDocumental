@@ -1,0 +1,3 @@
+- [x] Recreate the reference-inspired responsive page and services menu.
+- [x] Add Instagram, email contact, and validated inquiry form.
+- [ ] Activate automatic email delivery after the company configures an owned sending domain.
