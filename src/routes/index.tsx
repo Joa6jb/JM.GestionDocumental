@@ -64,7 +64,8 @@ function Index() {
     const { name, surname, email, phone, service, message } = result.data;
     const subject = `Consulta por ${service} — ${name} ${surname}`;
     const body = `Hola, quiero consultar por un trámite.\n\nNombre: ${name}\nApellido: ${surname}\nCorreo: ${email}\nTeléfono: ${phone}\nTipo de trámite: ${service}${message ? `\n\nMensaje:\n${message}` : ""}\n`;
-    window.location.href = `mailto:${companyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(companyEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmailUrl, "_blank", "noopener");
   }
 
   return (
@@ -155,7 +156,7 @@ function Index() {
                 <label className="block text-xs font-semibold sm:col-span-2">Mensaje (opcional) <textarea name="message" rows={4} maxLength={2000} placeholder="Contanos más sobre tu consulta o si hay datos que debamos tener en cuenta." className="mt-2 w-full rounded-none border border-primary-foreground/35 bg-background px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" /></label>
               </div>
               {error && <p role="alert" className="mt-4 text-sm text-primary-foreground">{error}</p>}
-              <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-sm text-xs leading-relaxed opacity-75">Al continuar, se abrirá tu correo con la consulta preparada. Revisá y enviá el mensaje desde allí.</p><Button type="submit" variant="secondary" size="lg" className="h-12 w-full shrink-0 rounded-none px-6 text-xs font-semibold uppercase tracking-wider sm:w-auto">Preparar consulta <ArrowRight /></Button></div>
+              <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-sm text-xs leading-relaxed opacity-75">Al continuar, se abrirá Gmail con la consulta preparada. Revisá y enviá el mensaje desde allí.</p><Button type="submit" variant="secondary" size="lg" className="h-12 w-full shrink-0 rounded-none px-6 text-xs font-semibold uppercase tracking-wider sm:w-auto">Preparar consulta <ArrowRight /></Button></div>
             </form>
           </div>
         </section>
