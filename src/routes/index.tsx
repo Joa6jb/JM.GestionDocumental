@@ -54,16 +54,16 @@ function Index() {
     const fields = new FormData(form);
     const result = inquirySchema.safeParse({
       name: fields.get("name"), surname: fields.get("surname"), email: fields.get("email"),
-      phone: fields.get("phone"), service: selectedService,
+      phone: fields.get("phone"), service: selectedService, message: fields.get("message"),
     });
     if (!result.success) {
       setError("Revisá los datos e indicá el tipo de trámite antes de continuar.");
       return;
     }
     setError("");
-    const { name, surname, email, phone, service } = result.data;
+    const { name, surname, email, phone, service, message } = result.data;
     const subject = `Consulta por ${service} — ${name} ${surname}`;
-    const body = `Hola, quiero consultar por un trámite.\n\nNombre: ${name}\nApellido: ${surname}\nCorreo: ${email}\nTeléfono: ${phone}\nTipo de trámite: ${service}\n`;
+    const body = `Hola, quiero consultar por un trámite.\n\nNombre: ${name}\nApellido: ${surname}\nCorreo: ${email}\nTeléfono: ${phone}\nTipo de trámite: ${service}${message ? `\n\nMensaje:\n${message}` : ""}\n`;
     window.location.href = `mailto:${companyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
