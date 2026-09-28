@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep this brochure experience on the home route with in-page section navigation to mirror the supplied single-page reference.
+- Until an owned sender domain is configured, the inquiry form opens a prefilled email draft rather than claiming automatic delivery.
