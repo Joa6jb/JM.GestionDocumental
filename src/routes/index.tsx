@@ -20,6 +20,7 @@ const inquirySchema = z.object({
   email: z.string().trim().email().max(255),
   phone: z.string().trim().min(6).max(30).regex(/^[+\d\s().-]+$/),
   service: z.enum(["Ciudadanía española", "Apostillado de documentos", "Traducciones y legalizaciones", "Otros trámites"]),
+  message: z.string().trim().max(2000).optional(),
 });
 
 export const Route = createFileRoute("/")({
