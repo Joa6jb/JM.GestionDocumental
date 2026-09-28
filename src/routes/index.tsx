@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileText, Globe2, Instagram, Landmark, Mail, Menu, Send, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileText, Globe2, Instagram, Landmark, Mail, Menu, ShieldCheck, X } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
