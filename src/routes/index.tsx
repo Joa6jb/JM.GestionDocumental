@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileText, Globe2, Instagram, Landmark, Mail, Menu, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileText, Instagram, Landmark, Mail, Menu, ShieldCheck, X } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -107,7 +107,7 @@ function Index() {
 
         <section id="nosotros" className="bg-secondary py-9 md:py-11" aria-label="Por qué elegirnos">
           <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-8 px-5 md:grid-cols-4 md:px-10">
-            {[{ icon: ShieldCheck, title: "Trámites seguros", text: "Tu documentación en buenas manos." }, { icon: Clock3, title: "Atención personalizada", text: "Te asesoramos en todo el proceso." }, { icon: FileText, title: "Experiencia y seriedad", text: "Gestión eficiente y confiable." }, { icon: Globe2, title: "Cobertura internacional", text: "Para que estés donde estés." }].map((item) => <div key={item.title} className="flex flex-col items-center border-r border-border px-3 text-center last:border-r-0 md:px-7"><item.icon size={34} strokeWidth={1.3} /><h2 className="mt-3 text-[11px] font-bold uppercase md:text-xs">{item.title}</h2><p className="mt-1.5 max-w-[185px] text-xs leading-relaxed md:text-sm">{item.text}</p></div>)}
+            {[{ icon: ShieldCheck, title: "Trámites seguros", text: "Tu documentación en buenas manos." }, { icon: Clock3, title: "Atención personalizada", text: "Te asesoramos en todo el proceso." }, { icon: FileText, title: "Experiencia y seriedad", text: "Gestión eficiente y confiable." }].map((item) => <div key={item.title} className="flex flex-col items-center border-r border-border px-3 text-center last:border-r-0 md:px-7"><item.icon size={34} strokeWidth={1.3} /><h2 className="mt-3 text-[11px] font-bold uppercase md:text-xs">{item.title}</h2><p className="mt-1.5 max-w-[185px] text-xs leading-relaxed md:text-sm">{item.text}</p></div>)}
           </div>
         </section>
 
