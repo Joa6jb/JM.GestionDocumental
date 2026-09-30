@@ -64,7 +64,29 @@ function Index() {
     const { name, surname, email, phone, service, message } = result.data;
     const subject = `Consulta por ${service} — ${name} ${surname}`;
     const body = `Hola, quiero consultar por un trámite.\n\nNombre: ${name}\nApellido: ${surname}\nCorreo: ${email}\nTeléfono: ${phone}\nTipo de trámite: ${service}${message ? `\n\nMensaje:\n${message}` : ""}\n`;
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(companyEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const s = encodeURIComponent(subject);
+    const b = encodeURIComponent(body);
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(companyEmail)}&su=${s}&body=${b}`;
+    const ua = navigator.userAgent;
+    const isAndroid = /Android/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    if (isAndroid) {
+      // Opens the Gmail app with the draft; Chrome falls back to Gmail web if the app isn't installed.
+      window.location.href = `intent:${companyEmail}?subject=${s}&body=${b}#Intent;scheme=mailto;package=com.google.android.gm;S.browser_fallback_url=${encodeURIComponent(gmailUrl)};end`;
+      return;
+    }
+    if (isIOS) {
+      let left = false;
+      const onHide = () => { if (document.hidden) left = true; };
+      document.addEventListener("visibilitychange", onHide);
+      window.location.href = `googlegmail://co?to=${encodeURIComponent(companyEmail)}&subject=${s}&body=${b}`;
+      window.setTimeout(() => {
+        document.removeEventListener("visibilitychange", onHide);
+        if (!left && !document.hidden) window.location.href = gmailUrl;
+      }, 1500);
+      return;
+    }
     window.open(gmailUrl, "_blank", "noopener");
   }
 
