@@ -64,23 +64,8 @@ function Index() {
     const { name, surname, email, phone, service, message } = result.data;
     const subject = `Consulta por ${service} — ${name} ${surname}`;
     const body = `Hola, quiero consultar por un trámite.\n\nNombre: ${name}\nApellido: ${surname}\nCorreo: ${email}\nTeléfono: ${phone}\nTipo de trámite: ${service}${message ? `\n\nMensaje:\n${message}` : ""}\n`;
-    const to = encodeURIComponent(companyEmail);
-    const su = encodeURIComponent(subject);
-    const bodyEnc = encodeURIComponent(body);
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${su}&body=${bodyEnc}`;
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) {
-      // Intenta abrir la app de Gmail; si no está instalada, vuelve a la web.
-      const fallback = window.setTimeout(() => window.open(gmailUrl, "_blank", "noopener"), 1200);
-      window.addEventListener("pagehide", () => window.clearTimeout(fallback), { once: true });
-      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        window.location.href = `googlegmail://co?to=${to}&subject=${su}&body=${bodyEnc}`;
-      } else {
-        window.location.href = `intent://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${su}&body=${bodyEnc}#Intent;scheme=https;package=com.google.android.gm;end`;
-      }
-    } else {
-      window.open(gmailUrl, "_blank", "noopener");
-    }
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(companyEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmailUrl, "_blank", "noopener");
   }
 
   return (
