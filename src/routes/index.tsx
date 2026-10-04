@@ -5,7 +5,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const companyEmail = "joaquinfernandezds@gmail.com";
+const companyEmail = "j.m.gestiondocumental@gmail.com";
 const instagramUrl = "https://www.instagram.com/joaquinfrnz/";
 const services = [
   { title: "Ciudadanía española", description: "Te acompañamos en cada etapa de tu expediente de nacionalidad española.", icon: Landmark },
