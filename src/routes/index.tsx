@@ -96,7 +96,7 @@ function Index() {
       <header className="relative z-20 bg-primary text-primary-foreground">
         <div className="mx-auto grid h-20 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 md:h-22 md:px-10">
           <a href="#inicio" className="flex min-w-0 items-center gap-3" aria-label="Gestoria de Documentacion, ir al inicio">
-            <div className="relative size-14 shrink-0 overflow-hidden rounded-full md:size-17">
+            <div className="relative size-16 shrink-0 overflow-hidden rounded-full md:size-[4.75rem]">
               <img src={logoAsset.url} alt="Logo de Gestoria de Documentacion" className="size-full object-cover" />
             </div>
             <span className="min-w-0 leading-none"><strong className="block truncate font-display text-xl font-semibold md:text-2xl">Gestoria de Documentacion</strong><small className="mt-1 block text-[9px] font-medium uppercase tracking-[0.22em] opacity-75 md:text-[10px]">Gestión documental</small></span>
