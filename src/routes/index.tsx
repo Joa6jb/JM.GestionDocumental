@@ -4,7 +4,7 @@ import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileText, Inst
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import logoAsset from "@/assets/logo.png.asset.json";
+import logoAsset from "@/assets/logo.png";
 
 const companyEmail = "j.m.gestiondocumental@gmail.com";
 const instagramUrl = "https://www.instagram.com/joaquinfrnz/";
@@ -97,7 +97,7 @@ function Index() {
         <div className="mx-auto grid h-20 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 md:h-22 md:px-10">
           <a href="#inicio" className="flex min-w-0 items-center gap-3" aria-label="Gestoria de Documentacion, ir al inicio">
             <div className="relative size-16 shrink-0 overflow-hidden rounded-full md:size-[4.75rem]">
-              <img src={logoAsset.url} alt="Logo de Gestoria de Documentacion" className="size-full object-cover" />
+              <img src={logoAsset} alt="Logo de Gestoria de Documentacion" className="size-full object-cover" />
             </div>
             <span className="min-w-0 leading-none"><strong className="block truncate font-display text-xl font-semibold md:text-2xl">Gestoria de Documentacion</strong><small className="mt-1 block text-[9px] font-medium uppercase tracking-[0.22em] opacity-75 md:text-[10px]">Gestión documental</small></span>
           </a>
