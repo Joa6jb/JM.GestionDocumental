@@ -4,6 +4,7 @@ import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileText, Inst
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import logoAsset from "@/assets/logo.png.asset.json";
 
 const companyEmail = "j.m.gestiondocumental@gmail.com";
 const instagramUrl = "https://www.instagram.com/joaquinfrnz/";
@@ -95,15 +96,8 @@ function Index() {
       <header className="relative z-20 bg-primary text-primary-foreground">
         <div className="mx-auto grid h-20 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 md:h-22 md:px-10">
           <a href="#inicio" className="flex min-w-0 items-center gap-3" aria-label="Gestoria de Documentacion, ir al inicio">
-            <div className="relative grid size-10 shrink-0 place-items-center rounded-full border border-accent/50 md:size-12">
-              <svg viewBox="0 0 100 100" className="size-6 fill-none stroke-accent md:size-7" strokeWidth={5} aria-hidden="true">
-                <path d="M25 40 50 20 75 40" strokeLinecap="round" strokeLinejoin="round" />
-                <rect x="30" y="45" width="8" height="30" rx="1" />
-                <rect x="46" y="45" width="8" height="35" rx="1" />
-                <rect x="62" y="45" width="8" height="30" rx="1" />
-                <path d="M20 80H80" strokeLinecap="round" />
-                <circle cx="50" cy="50" r="44" strokeWidth={3} strokeDasharray="1 7" className="opacity-30" />
-              </svg>
+            <div className="relative size-10 shrink-0 overflow-hidden rounded-full border border-accent/50 md:size-12">
+              <img src={logoAsset.url} alt="Logo de Gestoria de Documentacion" className="size-full object-cover" />
             </div>
             <span className="min-w-0 leading-none"><strong className="block truncate font-display text-xl font-semibold md:text-2xl">Gestoria de Documentacion</strong><small className="mt-1 block text-[9px] font-medium uppercase tracking-[0.22em] opacity-75 md:text-[10px]">Gestión documental</small></span>
           </a>
