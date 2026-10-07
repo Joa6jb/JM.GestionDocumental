@@ -5,9 +5,11 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import logoAsset from "@/assets/logo.png";
+import inquiryDesk from "@/assets/inquiry-desk.jpg";
 
 const companyEmail = "j.m.gestiondocumental@gmail.com";
 const instagramUrl = "https://www.instagram.com/joaquinfrnz/";
+const whatsappUrl = "https://wa.me/5491144005923";
 const services = [
   { title: "Ciudadanía española", description: "Te acompañamos en cada etapa de tu expediente de nacionalidad española.", icon: Landmark },
   { title: "Apostillado de documentos", description: "Gestionamos apostillas para partidas, títulos, certificados y más.", icon: FileCheck2 },
@@ -132,12 +134,6 @@ function Index() {
           </div>
         </section>
 
-        <section id="nosotros" className="bg-secondary py-9 md:py-11" aria-label="Por qué elegirnos">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-y-8 px-5 md:grid-cols-3 md:px-10">
-            {[{ icon: ShieldCheck, title: "Trámites seguros", text: "Tu documentación en buenas manos." }, { icon: Clock3, title: "Atención personalizada", text: "Te asesoramos en todo el proceso." }, { icon: FileText, title: "Experiencia y seriedad", text: "Gestión eficiente y confiable." }].map((item) => <div key={item.title} className="flex flex-col items-center border-r-0 px-3 text-center md:border-r md:px-7 md:last:border-r-0"><item.icon size={34} strokeWidth={1.3} /><h2 className="mt-3 text-[11px] font-bold uppercase md:text-xs">{item.title}</h2><p className="mt-1.5 max-w-[185px] text-xs leading-relaxed md:text-sm">{item.text}</p></div>)}
-          </div>
-        </section>
-
         <section id="tramites" className="bg-background py-17 md:py-21">
           <div className="mx-auto max-w-7xl px-6 md:px-10">
             <div className="section-label flex items-center gap-3"><span className="h-px w-8 bg-primary" /> NUESTROS SERVICIOS</div>
@@ -157,27 +153,45 @@ function Index() {
           </div>
         </section>
 
-        <section id="consulta" className="scroll-mt-4 bg-primary py-16 text-primary-foreground md:py-20">
-          <div className="mx-auto max-w-3xl px-6 text-center">
-            <Mail size={30} strokeWidth={1.3} className="mx-auto" />
-            <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl">¿Tenés alguna consulta?</h2>
-            <p className="mt-2 text-sm opacity-80">Contanos qué trámite necesitás y nos ponemos en contacto.</p>
-            <form onSubmit={submitInquiry} className="mt-9 text-left" noValidate>
-              <div className="grid gap-5 sm:grid-cols-2">
+        <section id="nosotros" className="bg-background py-14 md:py-18" aria-labelledby="about-title">
+          <div className="mx-auto grid max-w-7xl items-center gap-9 px-6 md:grid-cols-[1.2fr_1fr] md:gap-16 md:px-10">
+            <div className="max-w-xl">
+              <div className="section-label flex items-center gap-3"><span className="h-px w-6 bg-primary" /> SOBRE NOSOTROS</div>
+              <h2 id="about-title" className="mt-3 font-display text-4xl font-semibold md:text-5xl">Somos JM</h2>
+              <p className="mt-4 text-sm leading-relaxed md:text-base">Somos Joaquin y Maite, creamos JM Gestion Documental con el propósito de brindar acompañamiento claro, responsable y personalizado a todos aquellos que necesiten realizar trámites relacionados con la ciudadanía española y documentación.</p>
+              <p className="mt-4 text-sm leading-relaxed md:text-base">Buscamos que cada persona pueda entender el trámite a realizar, conocer qué necesita durante el proceso y contar con nosotros durante todo el procedimiento.</p>
+            </div>
+            <div className="space-y-7 border border-border/60 p-6 md:p-8" aria-label="Por qué elegirnos">
+              {[{ icon: ShieldCheck, title: "Trámites seguros", text: "Tu documentación en buenas manos." }, { icon: Clock3, title: "Atención personalizada", text: "Te asesoramos en todo el proceso." }, { icon: FileText, title: "Experiencia y seriedad", text: "Gestión eficiente y confiable." }].map((item) => <div key={item.title} className="flex items-start gap-5"><item.icon size={34} strokeWidth={1.3} className="shrink-0" /><div><h3 className="font-display text-xl font-bold leading-tight">{item.title}</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.text}</p></div></div>)}
+            </div>
+          </div>
+        </section>
+
+        <section id="consulta" className="relative isolate scroll-mt-4 overflow-hidden bg-primary py-12 text-primary-foreground md:py-14">
+          <img src={inquiryDesk} alt="" loading="lazy" width={1536} height={768} className="absolute inset-0 -z-20 size-full object-cover object-bottom" />
+          <div className="inquiry-shade absolute inset-0 -z-10" />
+          <div className="mx-auto grid max-w-7xl gap-8 px-6 md:grid-cols-[0.85fr_1.65fr] md:gap-14 md:px-10">
+            <div>
+              <div className="section-label flex items-center gap-3"><span className="h-px w-6 bg-gold" /> ¿TENÉS UNA CONSULTA?</div>
+              <h2 className="mt-3 font-display text-4xl font-semibold">Completá el formulario</h2>
+              <p className="mt-3 text-sm opacity-90">Te contactaremos a la brevedad.</p>
+            </div>
+            <form onSubmit={submitInquiry} className="min-w-0 text-left" noValidate>
+              <div className="grid gap-x-5 gap-y-3 sm:grid-cols-2">
                 <label className="block text-xs font-semibold">Nombre <Input name="name" autoComplete="given-name" required maxLength={100} className="mt-2 h-12 rounded-none border-primary-foreground/35 bg-background text-foreground" placeholder="Tu nombre" /></label>
                 <label className="block text-xs font-semibold">Apellido <Input name="surname" autoComplete="family-name" required maxLength={100} className="mt-2 h-12 rounded-none border-primary-foreground/35 bg-background text-foreground" placeholder="Tu apellido" /></label>
                 <label className="block text-xs font-semibold">Correo electrónico <Input name="email" type="email" autoComplete="email" required maxLength={255} className="mt-2 h-12 rounded-none border-primary-foreground/35 bg-background text-foreground" placeholder="tu@correo.com" /></label>
                 <label className="block text-xs font-semibold">Número telefónico <Input name="phone" type="tel" autoComplete="tel" required maxLength={30} className="mt-2 h-12 rounded-none border-primary-foreground/35 bg-background text-foreground" placeholder="+54 11 1234 5678" /></label>
                 <label className="block text-xs font-semibold sm:col-span-2">Tipo de trámite <select name="service" required value={selectedService} onChange={(event) => setSelectedService(event.target.value)} className="mt-2 h-12 w-full rounded-none border border-primary-foreground/35 bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"><option value="">Seleccioná un trámite</option>{services.map((service) => <option key={service.title} value={service.title}>{service.title}</option>)}</select></label>
-                <label className="block text-xs font-semibold sm:col-span-2">Mensaje (opcional) <textarea name="message" rows={4} maxLength={2000} placeholder="Contanos más sobre tu consulta o si hay datos que debamos tener en cuenta." className="mt-2 w-full rounded-none border border-primary-foreground/35 bg-background px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" /></label>
+                <label className="block text-xs font-semibold sm:col-span-2">Mensaje (opcional) <textarea name="message" rows={3} maxLength={2000} placeholder="Contanos más sobre tu consulta o si hay datos que debamos tener en cuenta." className="mt-2 w-full rounded-none border border-primary-foreground/35 bg-background px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" /></label>
               </div>
               {error && <p role="alert" className="mt-4 text-sm text-primary-foreground">{error}</p>}
-              <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-sm text-xs leading-relaxed opacity-75">Al continuar, se abrirá Gmail con la consulta preparada. Revisá y enviá el mensaje desde allí.</p><Button type="submit" variant="secondary" size="lg" className="h-12 w-full shrink-0 rounded-none px-6 text-xs font-semibold uppercase tracking-wider sm:w-auto">Preparar consulta <ArrowRight /></Button></div>
+              <div className="mt-5 flex flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between"><p className="max-w-sm text-xs leading-relaxed opacity-90">Al continuar, se abrirá Gmail con la consulta preparada. Revisá y enviá el mensaje desde allí.</p><Button type="submit" variant="gold" size="lg" className="h-12 w-full shrink-0 rounded-sm px-6 text-xs font-semibold uppercase lg:w-auto">Preparar consulta <ArrowRight /></Button></div>
             </form>
           </div>
         </section>
       </main>
-      <footer className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-5 border-t border-primary-foreground/25 px-6 py-6 text-xs md:flex-row md:items-center md:justify-between md:px-10"><span>© {new Date().getFullYear()} Gestoria de Documentacion</span><div className="flex flex-wrap gap-6"><a className="inline-flex items-center gap-2 hover:underline" href={`mailto:${companyEmail}`}><Mail size={15} /> {companyEmail}</a><a className="inline-flex items-center gap-2 hover:underline" href={instagramUrl} target="_blank" rel="noopener noreferrer"><Instagram size={15} /> Instagram</a></div></div></footer>
+      <footer className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-5 border-t border-primary-foreground/25 px-6 py-6 text-xs md:flex-row md:items-center md:justify-between md:px-10"><span>© {new Date().getFullYear()} Gestoria de Documentacion</span><div className="flex flex-wrap items-center gap-x-6 gap-y-3"><a className="inline-flex items-center gap-2 hover:underline" href={`mailto:${companyEmail}`}><Mail size={15} /> {companyEmail}</a><a className="inline-flex items-center gap-2 hover:underline" href={instagramUrl} target="_blank" rel="noopener noreferrer"><Instagram size={15} /> Instagram</a><Button asChild variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground [&_svg]:size-6"><a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.05 0C5.46 0 .1 5.36.1 11.95c0 2.1.55 4.15 1.6 5.95L0 24l6.25-1.64a11.9 11.9 0 0 0 5.8 1.48h.01C18.65 23.84 24 18.48 24 11.9c0-3.19-1.24-6.18-3.48-8.42ZM12.06 21.83a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.71.97.99-3.62-.24-.37a9.85 9.85 0 0 1-1.51-5.27c0-5.47 4.45-9.92 9.92-9.92a9.85 9.85 0 0 1 7.01 2.91 9.85 9.85 0 0 1 2.9 7.01c0 5.47-4.45 9.92-9.97 9.92Zm5.44-7.43c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.46-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.09 4.49.71.3 1.26.48 1.69.62.71.22 1.35.19 1.86.11.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z" /></svg></a></Button></div></div></footer>
     </div>
   );
 }

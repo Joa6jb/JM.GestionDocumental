@@ -23,6 +23,10 @@
   --color-border: var(--border);
   --color-input: var(--border);
   --color-ring: var(--primary);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--primary);
+  --color-gold-hover: var(--gold-hover);
+  --color-gold-border: var(--gold-border);
   --font-sans: "DM Sans", sans-serif;
   --font-display: "Cormorant Garamond", Georgia, serif;
   --radius-sm: 2px;
@@ -42,6 +46,10 @@
   --accent: oklch(0.88 0.035 80);
   --destructive: oklch(0.52 0.18 29);
   --border: oklch(0.83 0.017 80);
+  --gold: oklch(0.81 0.105 83);
+  --gold-hover: oklch(0.86 0.09 83);
+  --gold-border: oklch(0.89 0.065 83);
+  --inquiry-overlay: color-mix(in oklch, var(--primary) 86%, transparent);
 }
 
 @layer base {
@@ -55,6 +63,7 @@
 @utility section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
 @utility hero-photo { background-image: linear-gradient(90deg, var(--background) 0%, color-mix(in oklch, var(--background) 86%, transparent) 35%, transparent 63%), url('./assets/passport-desk.jpg'); background-position: center; background-size: cover; }
 @utility paper-photo { background-image: linear-gradient(90deg, color-mix(in oklch, var(--secondary) 10%, transparent), var(--secondary) 48%), url('./assets/passport-desk.jpg'); background-position: left center; background-size: cover; }
+@utility inquiry-shade { background: var(--inquiry-overlay); }
 @media (max-width: 767px) {
   .hero-photo { background-image: linear-gradient(180deg, var(--background) 0%, color-mix(in oklch, var(--background) 94%, transparent) 42%, color-mix(in oklch, var(--background) 25%, transparent) 73%), url('./assets/passport-desk.jpg'); background-position: 65% center; }
   .paper-photo { background-image: linear-gradient(90deg, color-mix(in oklch, var(--secondary) 90%, transparent), var(--secondary)), url('./assets/passport-desk.jpg'); }
