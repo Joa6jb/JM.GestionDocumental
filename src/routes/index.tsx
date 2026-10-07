@@ -5,7 +5,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import processDesk from "@/assets/process-desk.png.asset.json";
+import processDesk from "@/assets/process-desk.png";
 import logoAsset from "@/assets/logo.png";
 import inquiryDesk from "@/assets/inquiry-desk.jpg";
 
@@ -171,7 +171,7 @@ function Index() {
         </section>
 
         <section className="relative isolate overflow-hidden bg-secondary py-16 md:py-20" aria-labelledby="process-title">
-          <img src={processDesk.url} alt="" loading="lazy" width={800} height={533} className="absolute inset-0 -z-20 size-full object-cover" />
+          <img src={processDesk} alt="" loading="lazy" width={800} height={533} className="absolute inset-0 -z-20 size-full object-cover" />
           <div className="process-shade absolute inset-0 -z-10" />
           <div className="mx-auto max-w-7xl px-6 md:px-10">
             <div className="text-center"><div className="section-label">¿CÓMO FUNCIONA?</div><h2 id="process-title" className="mt-2 font-display text-4xl font-semibold md:text-5xl">Es muy simple</h2></div>
