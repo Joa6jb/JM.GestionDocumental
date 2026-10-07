@@ -52,7 +52,7 @@
   --whatsapp: oklch(0.52 0.15 151);
   --whatsapp-hover: oklch(0.46 0.14 151);
   --floating-shadow: 0 6px 22px color-mix(in oklch, var(--primary) 24%, transparent);
-  --process-overlay: color-mix(in oklch, var(--secondary) 65%, transparent);
+  --process-overlay: color-mix(in oklch, var(--secondary) 86%, transparent);
   --inquiry-overlay: color-mix(in oklch, var(--primary) 86%, transparent);
 }
 
