@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileText, Instagram, Landmark, Mail, Menu, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileSignature, FileText, Instagram, Landmark, Mail, Menu, Settings, ShieldCheck, X } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -147,8 +147,8 @@ function Index() {
         <section className="paper-photo bg-secondary py-16 md:py-20" aria-labelledby="process-title">
           <div className="mx-auto max-w-7xl px-6 md:px-10">
             <div className="text-center"><div className="section-label">¿CÓMO FUNCIONA?</div><h2 id="process-title" className="mt-2 font-display text-4xl font-semibold md:text-5xl">Es muy simple</h2></div>
-            <div className="mt-10 grid gap-9 text-center md:grid-cols-3 md:gap-12">
-              {[{ number: "1", title: "Completás el formulario", text: "Ingresás tus datos y el tipo de trámite que necesitás." }, { number: "2", title: "Nos contactamos", text: "Te respondemos por correo con los próximos pasos y requisitos." }, { number: "3", title: "Gestionamos tu trámite", text: "Te acompañamos durante el proceso y nos ocupamos de la gestion correspondiente." }].map((step) => <div key={step.number} className="relative flex flex-col items-center"><span className="grid size-9 place-items-center rounded-full bg-primary font-display text-xl text-primary-foreground">{step.number}</span><h3 className="mt-4 text-sm font-bold">{step.title}</h3><p className="mt-2 max-w-[220px] text-sm leading-relaxed">{step.text}</p></div>)}
+            <div className="mt-10 grid gap-9 text-center sm:grid-cols-2 md:grid-cols-4 md:gap-6">
+              {[{ number: "1", icon: FileSignature, title: "Completás el formulario", text: "Ingresás tus datos y el tipo de trámite que necesitás." }, { number: "2", icon: Mail, title: "Nos contactamos", text: "Te respondemos por correo con los próximos pasos y requisitos." }, { number: "3", icon: Settings, title: "Gestionamos tu trámite", text: "Te acompañamos durante el proceso y nos ocupamos de la gestion correspondiente." }, { number: "4", icon: ShieldCheck, title: "Recibís la confirmación", text: "Te mantenemos informado en cada etapa hasta la finalización de tu gestión." }].map((step) => <div key={step.number} className="relative flex flex-col items-center"><div className="flex items-center gap-3"><span className="grid size-9 place-items-center rounded-full bg-primary font-display text-xl text-primary-foreground">{step.number}</span><step.icon size={30} strokeWidth={1.3} className="shrink-0" /></div><h3 className="mt-4 text-sm font-bold">{step.title}</h3><p className="mt-2 max-w-[220px] text-sm leading-relaxed">{step.text}</p></div>)}
             </div>
           </div>
         </section>
