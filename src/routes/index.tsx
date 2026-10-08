@@ -71,7 +71,7 @@ function Index() {
     }, { threshold: 0.08 });
     elements.forEach((element) => {
       const siblingIndex = element.parentElement ? Array.from(element.parentElement.children).indexOf(element) : 0;
-      element.dataset.motionStep = String(Math.min(siblingIndex, 3));
+      element.dataset["motionStep"] = String(Math.min(siblingIndex, 3));
       element.classList.add("section-reveal", "reveal-pending");
       observer.observe(element);
     });
@@ -89,7 +89,7 @@ function Index() {
       motionPreference.removeEventListener("change", revealAll);
       elements.forEach((element) => {
         element.classList.remove("section-reveal", "reveal-pending");
-        delete element.dataset.motionStep;
+        delete element.dataset["motionStep"];
       });
     };
   }, []);
