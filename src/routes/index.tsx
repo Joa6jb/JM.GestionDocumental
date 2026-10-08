@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileSignature, FileText, Instagram, Landmark, Mail, Menu, Settings, ShieldCheck, X } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import processDesk from "@/assets/process-desk.png.asset.json";
 import logoAsset from "@/assets/logo.png";
 import inquiryDesk from "@/assets/inquiry-desk.jpg";
 
@@ -43,6 +45,29 @@ function Index() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string>("");
   const [error, setError] = useState("");
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+    const sections = Array.from(document.querySelectorAll("main > section"));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove("reveal-pending");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    sections.forEach((section) => {
+      section.classList.add("section-reveal");
+      if (section.getBoundingClientRect().top >= window.innerHeight) section.classList.add("reveal-pending");
+      observer.observe(section);
+    });
+    return () => {
+      observer.disconnect();
+      sections.forEach((section) => section.classList.remove("reveal-pending"));
+    };
+  }, []);
 
   function chooseService(service: string) {
     setSelectedService(service);
@@ -64,6 +89,7 @@ function Index() {
       return;
     }
     setError("");
+    setConfirmationOpen(true);
     const { name, surname, email, phone, service, message } = result.data;
     const subject = `Consulta por ${service} — ${name} ${surname}`;
     const body = `Hola, quiero consultar por un trámite.\n\nNombre: ${name}\nApellido: ${surname}\nCorreo: ${email}\nTeléfono: ${phone}\nTipo de trámite: ${service}${message ? `\n\nMensaje:\n${message}` : ""}\n`;
@@ -144,7 +170,9 @@ function Index() {
           </div>
         </section>
 
-        <section className="paper-photo bg-secondary py-16 md:py-20" aria-labelledby="process-title">
+        <section className="relative isolate overflow-hidden bg-secondary py-16 md:py-20" aria-labelledby="process-title">
+          <img src={processDesk.url} alt="" loading="lazy" width={800} height={533} className="absolute inset-0 -z-20 size-full object-cover" />
+          <div className="process-shade absolute inset-0 -z-10" />
           <div className="mx-auto max-w-7xl px-6 md:px-10">
             <div className="text-center"><div className="section-label">¿CÓMO FUNCIONA?</div><h2 id="process-title" className="mt-2 font-display text-4xl font-semibold md:text-5xl">Es muy simple</h2></div>
             <div className="mt-10 grid gap-9 text-center sm:grid-cols-2 md:grid-cols-4 md:gap-6">
@@ -191,7 +219,23 @@ function Index() {
           </div>
         </section>
       </main>
-      <footer className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 border-t border-primary-foreground/25 px-6 py-7 md:flex-row md:items-center md:justify-between md:px-10"><span className="text-xs">© {new Date().getFullYear()} Gestoria de Documentacion</span><div className="flex items-center gap-4"><a className="inline-flex size-14 items-center justify-center border border-primary-foreground/30 text-primary-foreground transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" width={30} height={30} aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.05 0C5.46 0 .1 5.36.1 11.95c0 2.1.55 4.15 1.6 5.95L0 24l6.25-1.64a11.9 11.9 0 0 0 5.8 1.48h.01C18.65 23.84 24 18.48 24 11.9c0-3.19-1.24-6.18-3.48-8.42ZM12.06 21.83a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.71.97.99-3.62-.24-.37a9.85 9.85 0 0 1-1.51-5.27c0-5.47 4.45-9.92 9.92-9.92a9.85 9.85 0 0 1 7.01 2.91 9.85 9.85 0 0 1 2.9 7.01c0 5.47-4.45 9.92-9.97 9.92Zm5.44-7.43c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.46-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.09 4.49.71.3 1.26.48 1.69.62.71.22 1.35.19 1.86.11.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z" /></svg></a><a className="inline-flex size-14 items-center justify-center border border-primary-foreground/30 text-primary-foreground transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram" title="Instagram"><Instagram size={30} strokeWidth={1.5} aria-hidden="true" /></a><a className="inline-flex size-14 items-center justify-center border border-primary-foreground/30 text-primary-foreground transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" href={`mailto:${companyEmail}`} aria-label="Enviar correo" title="Correo"><Mail size={30} strokeWidth={1.5} aria-hidden="true" /></a></div></div></footer>
+      <Button asChild variant="ghost" size="icon" className="whatsapp-button"><a className="whatsapp-floating" href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" width={30} height={30} aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.05 0C5.46 0 .1 5.36.1 11.95c0 2.1.55 4.15 1.6 5.95L0 24l6.25-1.64a11.9 11.9 0 0 0 5.8 1.48h.01C18.65 23.84 24 18.48 24 11.9c0-3.19-1.24-6.18-3.48-8.42ZM12.06 21.83a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.71.97.99-3.62-.24-.37a9.85 9.85 0 0 1-1.51-5.27c0-5.47 4.45-9.92 9.92-9.92a9.85 9.85 0 0 1 7.01 2.91 9.85 9.85 0 0 1 2.9 7.01c0 5.47-4.45 9.92-9.97 9.92Zm5.44-7.43c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.46-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.09 4.49.71.3 1.26.48 1.69.62.71.22 1.35.19 1.86.11.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z" /></svg></a></Button>
+      <Dialog open={confirmationOpen} onOpenChange={setConfirmationOpen}>
+        <DialogContent className="inquiry-confirmation w-[calc(100%-2rem)] max-w-lg rounded-lg border-primary-foreground/20 bg-primary p-7 text-primary-foreground sm:p-10">
+          <Mail className="size-10 text-gold" strokeWidth={1.3} aria-hidden="true" />
+          <DialogTitle className="font-display text-3xl font-semibold tracking-normal">¡Tu consulta está preparada!</DialogTitle>
+          <DialogDescription asChild>
+            <div className="space-y-4 text-sm leading-relaxed text-primary-foreground/90">
+              <p>Hola, gracias por comunicarte con JM Gestión Documental.</p>
+              <p>Preparamos tu consulta en Gmail. Para que la recibamos, revisá y enviá el correo desde allí.</p>
+              <p>Cuando lo recibamos, vamos a revisarlo para indicarte los próximos pasos.</p>
+              <p className="font-semibold text-gold">JM Gestión Documental</p>
+            </div>
+          </DialogDescription>
+          <DialogClose asChild><Button variant="gold" className="mt-2 justify-self-start">Entendido <ArrowRight /></Button></DialogClose>
+        </DialogContent>
+      </Dialog>
+      <footer className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 border-t border-primary-foreground/25 px-6 py-7 md:flex-row md:items-center md:justify-between md:px-10"><span className="text-xs">© {new Date().getFullYear()} Gestoria de Documentacion</span><div className="flex items-center gap-4"><a className="inline-flex size-14 items-center justify-center border border-primary-foreground/30 text-primary-foreground transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram" title="Instagram"><Instagram size={30} strokeWidth={1.5} aria-hidden="true" /></a><a className="inline-flex size-14 items-center justify-center border border-primary-foreground/30 text-primary-foreground transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" href={`mailto:${companyEmail}`} aria-label="Enviar correo" title="Correo"><Mail size={30} strokeWidth={1.5} aria-hidden="true" /></a></div></div></footer>
     </div>
   );
 }
