@@ -239,7 +239,7 @@ function Index() {
                 <label className="block text-xs font-semibold sm:col-span-2">Mensaje (opcional) <textarea name="message" rows={3} maxLength={2000} placeholder="Contanos más sobre tu consulta o si hay datos que debamos tener en cuenta." className="mt-2 w-full rounded-none border border-primary-foreground/35 bg-background px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" /></label>
               </div>
               {error && <p role="alert" className="mt-4 text-sm text-primary-foreground">{error}</p>}
-              <div className="mt-5 flex flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between"><p className="max-w-sm text-xs leading-relaxed opacity-90">Al continuar, se abrirá Gmail con la consulta preparada. Revisá y enviá el mensaje desde allí.</p><Button type="submit" variant="gold" size="lg" className="h-12 w-full shrink-0 rounded-sm px-6 text-xs font-semibold uppercase lg:w-auto">Preparar consulta <ArrowRight /></Button></div>
+              <div className="mt-5 flex flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between"><p className="max-w-sm text-xs leading-relaxed opacity-90">Al continuar, se abrirá Gmail con la consulta preparada. Revisá y enviá el mensaje desde ahí.</p><Button type="submit" variant="gold" size="lg" className="h-12 w-full shrink-0 rounded-sm px-6 text-xs font-semibold uppercase lg:w-auto">Preparar consulta <ArrowRight /></Button></div>
             </form>
           </div>
         </section>
@@ -252,7 +252,7 @@ function Index() {
           <DialogDescription asChild>
             <div className="space-y-4 text-sm leading-relaxed text-primary-foreground/90">
               <p>Hola, gracias por comunicarte con JM Gestión Documental.</p>
-              <p>Preparamos tu consulta en Gmail. Para que la recibamos, revisá y enviá el correo desde allí.</p>
+              <p>Preparamos tu consulta en Gmail. Para que la recibamos, revisá y enviá el correo desde ahí.</p>
               <p>Cuando lo recibamos, vamos a revisarlo para indicarte los próximos pasos.</p>
               <p className="font-semibold text-gold">JM Gestión Documental</p>
             </div>
