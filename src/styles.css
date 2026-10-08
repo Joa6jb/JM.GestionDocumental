@@ -101,6 +101,9 @@ main article svg, #process-title + div svg { transition: transform 250ms ease; }
   main button:hover, main a:hover { transform: translateY(-2px); }
 }
 footer { padding-bottom: 70px; }
+@media (max-width: 767px) {
+  #consulta button[type="submit"] { width: calc(100% - 76px); }
+}
 .inquiry-confirmation { animation-duration: 250ms; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
