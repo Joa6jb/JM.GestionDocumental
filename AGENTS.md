@@ -14,5 +14,5 @@
 - Floating WhatsApp contact uses a direct wa.me link, not messaging APIs, because visitors initiate conversations in their own WhatsApp client.
 - Inquiry photography is a bundled image with a semantic overlay, and gold actions use the shared Button variant to preserve theme consistency.
 
-- Section reveals use one IntersectionObserver with progressive enhancement and reduced-motion support to avoid hidden content when scripts are unavailable.
+- Scroll entrances use one IntersectionObserver for individual content elements with capped stagger delays, keyboard-focus reveal, progressive enhancement, and reduced-motion support; avoid continuous decorative animation.
 - The inquiry dialog confirms draft preparation, not receipt, because Gmail submission remains a visitor-controlled action.

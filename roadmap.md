@@ -4,3 +4,4 @@
 - [ ] Activate automatic email delivery after the company configures an owned sending domain.
 
 - [x] Add uploaded process background with beige overlay, floating WhatsApp, truthful inquiry dialog, and subtle reduced-motion-aware animations.
+- [x] Add staggered entrance animations throughout the page and restrained navigation, form, button, and icon transitions.

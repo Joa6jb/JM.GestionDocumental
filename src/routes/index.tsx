@@ -48,24 +48,49 @@ function Index() {
   const [confirmationOpen, setConfirmationOpen] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
-    const sections = Array.from(document.querySelectorAll("main > section"));
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motionPreference.matches || !("IntersectionObserver" in window)) return;
+    const elements = Array.from(document.querySelectorAll<HTMLElement>([
+      "header > div",
+      "#inicio .max-w-\\[560px\\] > *",
+      "#tramites .section-label", "#tramites h2", "#tramites article",
+      "section[aria-labelledby='process-title'] .text-center > .section-label",
+      "#process-title", "section[aria-labelledby='process-title'] .relative.flex",
+      "#nosotros .max-w-xl > *", "#nosotros [aria-label='Por qué elegirnos'] > *",
+      "#consulta .mx-auto > div > *", "#consulta form label", "#consulta form > .mt-5",
+      "footer > div > *",
+    ].join(",")));
+    const reveal = (element: Element) => {
+      element.classList.remove("reveal-pending");
+      observer.unobserve(element);
+    };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.remove("reveal-pending");
-          observer.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) reveal(entry.target);
       });
-    }, { threshold: 0.06 });
-    sections.forEach((section) => {
-      section.classList.add("section-reveal");
-      if (section.getBoundingClientRect().top >= window.innerHeight) section.classList.add("reveal-pending");
-      observer.observe(section);
+    }, { threshold: 0.08 });
+    elements.forEach((element) => {
+      const siblingIndex = element.parentElement ? Array.from(element.parentElement.children).indexOf(element) : 0;
+      element.dataset["motionStep"] = String(Math.min(siblingIndex, 3));
+      element.classList.add("section-reveal", "reveal-pending");
+      observer.observe(element);
     });
+    const revealFocused = (event: FocusEvent) => {
+      if (!(event.target instanceof Element)) return;
+      const pending = event.target.closest(".reveal-pending");
+      if (pending) reveal(pending);
+    };
+    const revealAll = () => { if (motionPreference.matches) elements.forEach(reveal); };
+    document.addEventListener("focusin", revealFocused);
+    motionPreference.addEventListener("change", revealAll);
     return () => {
       observer.disconnect();
-      sections.forEach((section) => section.classList.remove("reveal-pending"));
+      document.removeEventListener("focusin", revealFocused);
+      motionPreference.removeEventListener("change", revealAll);
+      elements.forEach((element) => {
+        element.classList.remove("section-reveal", "reveal-pending");
+        delete element.dataset["motionStep"];
+      });
     };
   }, []);
 

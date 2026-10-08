@@ -81,8 +81,36 @@ section[aria-labelledby="process-title"] > .mx-auto { position: relative; z-inde
 @media (max-width: 767px) {
   section[aria-labelledby="process-title"] > img { object-position: 42% center; }
 }
-.section-reveal { transition: opacity 650ms ease, transform 650ms ease; }
-.reveal-pending { opacity: 0; transform: translateY(18px); }
+.section-reveal {
+  transition: opacity 580ms ease, transform 580ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease, border-color 200ms ease;
+  transition-delay: var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), 0ms, 0ms;
+}
+.section-reveal[data-motion-step="1"] { --reveal-delay: 60ms; }
+.section-reveal[data-motion-step="2"] { --reveal-delay: 120ms; }
+.section-reveal[data-motion-step="3"] { --reveal-delay: 180ms; }
+.reveal-pending { opacity: 0; transform: translateY(14px); }
+.section-reveal:focus-within { --reveal-delay: 0ms; }
+header nav a { position: relative; transition: opacity 200ms ease; }
+header nav a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -4px;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms ease;
+}
+#consulta input, #consulta select, #consulta textarea {
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+#nosotros [aria-label="Por qué elegirnos"] svg,
+section[aria-labelledby="process-title"] svg,
+footer a svg, main button svg, main a svg {
+  transition: transform 220ms ease;
+}
 .whatsapp-button.whatsapp-floating {
   position: fixed;
   right: max(20px, env(safe-area-inset-right));
@@ -102,10 +130,16 @@ section[aria-labelledby="process-title"] > .mx-auto { position: relative; z-inde
 main button, main a, footer a { transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms ease; }
 main article svg, #process-title + div svg { transition: transform 250ms ease; }
 @media (hover: hover) {
+  header nav a:hover::after, header nav a:focus-visible::after { transform: scaleX(1); }
+  main article:not(.reveal-pending):hover { transform: translateY(-4px); --reveal-delay: 0ms; }
   main article:hover svg { transform: translateY(-3px); }
   section[aria-labelledby="process-title"] .relative:hover svg { transform: rotate(-6deg); }
+  #nosotros [aria-label="Por qué elegirnos"] > div:hover svg { transform: translateY(-3px); }
+  footer a:hover svg { transform: translateY(-2px); }
   main button:hover, main a:hover { transform: translateY(-2px); }
+  main button:hover .lucide-arrow-right, main a:hover .lucide-arrow-right { transform: translateX(3px); }
 }
+main button:active, main a:active { transform: translateY(0); }
 footer { padding-bottom: 70px; }
 @media (max-width: 767px) {
   #consulta button[type="submit"] { width: calc(100% - 76px); }
@@ -114,4 +148,7 @@ footer { padding-bottom: 70px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .reveal-pending { opacity: 1; transform: none; }
+  .section-reveal { transition-delay: 0ms; }
+  main article:hover, main button:hover, main a:hover, .whatsapp-button.whatsapp-floating:hover,
+  main svg, footer a svg { transform: none !important; }
 }
