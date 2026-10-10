@@ -27,9 +27,6 @@
   --color-gold-foreground: var(--primary);
   --color-gold-hover: var(--gold-hover);
   --color-gold-border: var(--gold-border);
-  --color-sage: var(--sage);
-  --color-sage-foreground: var(--sage-foreground);
-  --color-sage-hover: var(--sage-hover);
   --font-sans: "Inter", sans-serif;
   --font-display: "Cormorant Garamond", Georgia, serif;
   --radius-sm: 2px;
@@ -52,9 +49,6 @@
   --gold: oklch(0.81 0.105 83);
   --gold-hover: oklch(0.86 0.09 83);
   --gold-border: oklch(0.89 0.065 83);
-  --sage: #55766E;
-  --sage-foreground: var(--primary-foreground);
-  --sage-hover: color-mix(in oklch, var(--sage) 88%, var(--foreground));
   --whatsapp: oklch(0.52 0.15 151);
   --whatsapp-hover: oklch(0.46 0.14 151);
   --floating-shadow: 0 6px 22px color-mix(in oklch, var(--primary) 24%, transparent);

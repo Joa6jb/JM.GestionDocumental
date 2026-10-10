@@ -177,20 +177,20 @@ function Index() {
         <section id="inicio" className="hero-photo flex min-h-[540px] items-center md:min-h-[570px]">
           <div className="mx-auto w-full max-w-7xl px-6 py-16 md:px-10">
             <div className="max-w-[560px]">
-              <div className="section-label mb-7 flex items-center gap-3"><span className="h-px w-8 bg-sage" /> TU GESTIÓN, EN BUENAS MANOS</div>
+              <div className="section-label mb-7 flex items-center gap-3"><span className="h-px w-8 bg-primary" /> TU GESTIÓN, EN BUENAS MANOS</div>
               <h1 className="font-display text-5xl md:text-7xl font-semibold leading-[0.98]">Ciudadanía española<br />y documentación</h1>
               <p className="mt-7 max-w-[450px] text-[15px] leading-[1.75] md:text-base">Te acompañamos en cada paso para que tu trámite sea más simple, rápido y seguro. Nos especializamos en la gestión de ciudadanía española y en la tramitación de documentos.</p>
-              <Button asChild variant="sage" size="lg" className="mt-8 h-12 rounded-none px-7 text-xs font-semibold uppercase tracking-wider"><a href="#consulta">Solicitá asesoramiento <ArrowRight className="ml-3" /></a></Button>
+              <Button asChild size="lg" className="mt-8 h-12 rounded-none px-7 text-xs font-semibold uppercase tracking-wider"><a href="#consulta">Solicitá asesoramiento <ArrowRight className="ml-3" /></a></Button>
             </div>
           </div>
         </section>
 
         <section id="tramites" className="bg-background py-17 md:py-21">
           <div className="mx-auto max-w-7xl px-6 md:px-10">
-            <div className="section-label flex items-center gap-3"><span className="h-px w-8 bg-sage" /> NUESTROS SERVICIOS</div>
+            <div className="section-label flex items-center gap-3"><span className="h-px w-8 bg-primary" /> NUESTROS SERVICIOS</div>
             <h2 className="mt-4 font-display text-4xl font-semibold leading-tight md:text-5xl">Tus trámites, en buenas manos</h2>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {services.map((service) => <article key={service.title} className="flex min-h-[225px] flex-col border border-border bg-card p-6 transition-colors hover:bg-secondary/60"><service.icon size={36} strokeWidth={1.2} className="text-sage" /><h3 className="mt-5 font-display text-2xl font-semibold leading-tight">{service.title}</h3><p className="mt-2 text-sm leading-relaxed">{service.description}</p><Button variant="ghost" size="icon" className="mt-auto self-end text-sage hover:bg-sage/10 hover:text-sage" onClick={() => chooseService(service.title)} aria-label={`Consultar por ${service.title}`} title={`Consultar por ${service.title}`}><ArrowRight /></Button></article>)}
+              {services.map((service) => <article key={service.title} className="flex min-h-[225px] flex-col border border-border bg-card p-6 transition-colors hover:bg-secondary/60"><service.icon size={36} strokeWidth={1.2} /><h3 className="mt-5 font-display text-2xl font-semibold leading-tight">{service.title}</h3><p className="mt-2 text-sm leading-relaxed">{service.description}</p><Button variant="ghost" size="icon" className="mt-auto self-end" onClick={() => chooseService(service.title)} aria-label={`Consultar por ${service.title}`} title={`Consultar por ${service.title}`}><ArrowRight /></Button></article>)}
             </div>
           </div>
         </section>
@@ -201,7 +201,7 @@ function Index() {
           <div className="mx-auto max-w-7xl px-6 md:px-10">
             <div className="text-center"><div className="section-label">¿CÓMO FUNCIONA?</div><h2 id="process-title" className="mt-2 font-display text-4xl font-semibold md:text-5xl">Es muy simple</h2></div>
             <div className="mt-10 grid gap-9 text-center sm:grid-cols-2 md:grid-cols-4 md:gap-6">
-              {[{ number: "1", icon: FileSignature, title: "Completás el formulario", text: "Ingresás tus datos y el tipo de trámite que necesitás." }, { number: "2", icon: Mail, title: "Nos contactamos", text: "Te respondemos por correo con los próximos pasos y requisitos." }, { number: "3", icon: Settings, title: "Gestionamos tu trámite", text: "Te acompañamos durante el proceso y nos ocupamos de la gestion correspondiente." }, { number: "4", icon: ShieldCheck, title: "Recibís la confirmación", text: "Te mantenemos informado en cada etapa hasta la finalización de tu gestión." }].map((step) => <div key={step.number} className="relative flex flex-col items-center"><div className="flex items-center gap-3"><span className="grid size-9 place-items-center rounded-full bg-primary font-display text-xl text-primary-foreground">{step.number}</span><step.icon size={30} strokeWidth={1.3} className="shrink-0 text-sage" /></div><h3 className="mt-4 font-display text-2xl font-semibold leading-tight">{step.title}</h3><p className="mt-2 max-w-[220px] text-sm leading-relaxed">{step.text}</p></div>)}
+              {[{ number: "1", icon: FileSignature, title: "Completás el formulario", text: "Ingresás tus datos y el tipo de trámite que necesitás." }, { number: "2", icon: Mail, title: "Nos contactamos", text: "Te respondemos por correo con los próximos pasos y requisitos." }, { number: "3", icon: Settings, title: "Gestionamos tu trámite", text: "Te acompañamos durante el proceso y nos ocupamos de la gestion correspondiente." }, { number: "4", icon: ShieldCheck, title: "Recibís la confirmación", text: "Te mantenemos informado en cada etapa hasta la finalización de tu gestión." }].map((step) => <div key={step.number} className="relative flex flex-col items-center"><div className="flex items-center gap-3"><span className="grid size-9 place-items-center rounded-full bg-primary font-display text-xl text-primary-foreground">{step.number}</span><step.icon size={30} strokeWidth={1.3} className="shrink-0" /></div><h3 className="mt-4 font-display text-2xl font-semibold leading-tight">{step.title}</h3><p className="mt-2 max-w-[220px] text-sm leading-relaxed">{step.text}</p></div>)}
             </div>
           </div>
         </section>
@@ -209,13 +209,13 @@ function Index() {
         <section id="nosotros" className="bg-background py-14 md:py-18" aria-labelledby="about-title">
           <div className="mx-auto grid max-w-7xl items-center gap-9 px-6 md:grid-cols-[1.2fr_1fr] md:gap-16 md:px-10">
             <div className="max-w-xl">
-              <div className="section-label flex items-center gap-3"><span className="h-px w-6 bg-sage" /> SOBRE NOSOTROS</div>
+              <div className="section-label flex items-center gap-3"><span className="h-px w-6 bg-primary" /> SOBRE NOSOTROS</div>
               <h2 id="about-title" className="mt-3 font-display text-4xl font-semibold md:text-5xl">Somos JM</h2>
               <p className="mt-4 text-sm leading-relaxed md:text-base">Somos Joaquin y Maite, creamos JM Gestion Documental con el propósito de brindar acompañamiento claro, responsable y personalizado a todos aquellos que necesiten realizar trámites relacionados con la ciudadanía española y documentación.</p>
               <p className="mt-4 text-sm leading-relaxed md:text-base">Buscamos que cada persona pueda entender el trámite a realizar, conocer qué necesita durante el proceso y contar con nosotros durante todo el procedimiento.</p>
             </div>
-            <div className="space-y-7 border border-border/60 border-l-2 border-l-sage p-6 md:p-8" aria-label="Por qué elegirnos">
-              {[{ icon: ShieldCheck, title: "Trámites seguros", text: "Tu documentación en buenas manos." }, { icon: Clock3, title: "Atención personalizada", text: "Te asesoramos en todo el proceso." }, { icon: FileText, title: "Experiencia y seriedad", text: "Gestión eficiente y confiable." }].map((item) => <div key={item.title} className="flex items-start gap-5"><item.icon size={34} strokeWidth={1.3} className="shrink-0 text-sage" /><div><h3 className="font-display text-xl font-bold leading-tight">{item.title}</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.text}</p></div></div>)}
+            <div className="space-y-7 border border-border/60 p-6 md:p-8" aria-label="Por qué elegirnos">
+              {[{ icon: ShieldCheck, title: "Trámites seguros", text: "Tu documentación en buenas manos." }, { icon: Clock3, title: "Atención personalizada", text: "Te asesoramos en todo el proceso." }, { icon: FileText, title: "Experiencia y seriedad", text: "Gestión eficiente y confiable." }].map((item) => <div key={item.title} className="flex items-start gap-5"><item.icon size={34} strokeWidth={1.3} className="shrink-0" /><div><h3 className="font-display text-xl font-bold leading-tight">{item.title}</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.text}</p></div></div>)}
             </div>
           </div>
         </section>
