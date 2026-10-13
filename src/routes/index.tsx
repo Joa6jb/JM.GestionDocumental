@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileSignature, FileText, Instagram, Landmark, Mail, Menu, Settings, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileCheck2, FileSignature, FileText, Info, Instagram, Landmark, Mail, Menu, Settings, ShieldCheck, X } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,10 +13,22 @@ const companyEmail = "j.m.gestiondocumental@gmail.com";
 const instagramUrl = "https://www.instagram.com/joaquinfrnz/";
 const whatsappUrl = "https://wa.me/5491144005923";
 const services = [
-  { title: "Ciudadanía española", description: "Te acompañamos en cada etapa de tu expediente de nacionalidad española.", icon: Landmark },
-  { title: "Apostillado de documentos", description: "Gestionamos apostillas para partidas, títulos, certificados y más.", icon: FileCheck2 },
-  { title: "Traducciones y legalizaciones", description: "Traducciones oficiales y legalizaciones para presentar tus documentos.", icon: FileText },
-  { title: "Otros trámites", description: "Contanos qué necesitás y te orientamos con tu gestión documental.", icon: BadgeCheck },
+  { title: "Ciudadanía española", description: "Te acompañamos en cada etapa de tu expediente de nacionalidad española.", icon: Landmark,
+    needs: ["Documentación personal (DNI, pasaporte, actas).", "Certificados y partidas según cada caso.", "Otros documentos que puedan requerirse."],
+    steps: ["Analizamos tu situación y te indicamos la documentación.", "Preparamos y presentamos el expediente.", "Realizamos el seguimiento hasta la resolución."],
+    notes: ["Los plazos pueden variar según cada caso.", "No garantizamos la obtención de la nacionalidad, ya que es una decisión final del organismo competente.", "Te mantendremos informado en todo momento."] },
+  { title: "Apostillado de documentos", description: "Gestionamos apostillas para partidas, títulos, certificados y más.", icon: FileCheck2,
+    needs: ["Partidas de nacimiento, matrimonio o defunción.", "Títulos y certificados educativos.", "Documentos emitidos por autoridades públicas."],
+    steps: ["Revisamos los documentos y confirmamos el tipo de apostilla.", "Coordinamos la presentación ante la autoridad competente.", "Te entregamos los documentos apostillados."],
+    notes: ["Cada país tiene requisitos específicos.", "Algunos documentos requieren traducción posterior.", "Los tiempos dependen del organismo emisor."] },
+  { title: "Traducciones y legalizaciones", description: "Traducciones oficiales y legalizaciones para presentar tus documentos.", icon: FileText,
+    needs: ["Documentos redactados en idioma extranjero.", "Certificados y títulos académicos.", "Escrituras y demás documentos legales."],
+    steps: ["Evaluamos el documento y el tipo de traducción requerida.", "Coordinamos la traducción con traductor público.", "Realizamos la legalización o apostilla final."],
+    notes: ["Las traducciones oficiales las realiza un traductor público matriculado.", "Indicá el destino del documento para el formato correcto.", "Los tiempos varían según la extensión del documento."] },
+  { title: "Otros trámites", description: "Contanos qué necesitás y te orientamos con tu gestión documental.", icon: BadgeCheck,
+    needs: ["Documentación personal o familiar.", "Certificados, partidas o copias.", "Cualquier otro requerimiento documental."],
+    steps: ["Nos contás qué necesitás.", "Evaluamos el camino más simple para tu gestión.", "Acompañamos el trámite de principio a fin."],
+    notes: ["Cada gestión se organiza de forma personalizada.", "Te indicamos con claridad qué se puede hacer y qué no.", "Siempre vas a saber en qué etapa está tu trámite."] },
 ] as const;
 
 const inquirySchema = z.object({
@@ -46,6 +58,7 @@ function Index() {
   const [selectedService, setSelectedService] = useState<string>("");
   const [error, setError] = useState("");
   const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const [detailService, setDetailService] = useState<string | null>(null);
 
   useEffect(() => {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -190,7 +203,7 @@ function Index() {
             <div className="section-label flex items-center gap-3"><span className="h-px w-8 bg-primary" /> NUESTROS SERVICIOS</div>
             <h2 className="mt-4 font-display text-4xl font-semibold leading-tight md:text-5xl">Tus trámites, en buenas manos</h2>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {services.map((service) => <article key={service.title} className="flex min-h-[225px] flex-col border border-border bg-card p-6 transition-colors hover:bg-secondary/60"><service.icon size={36} strokeWidth={1.2} /><h3 className="mt-5 font-display text-2xl font-semibold leading-tight">{service.title}</h3><p className="mt-2 text-sm leading-relaxed">{service.description}</p><Button variant="ghost" size="icon" className="mt-auto self-end" onClick={() => chooseService(service.title)} aria-label={`Consultar por ${service.title}`} title={`Consultar por ${service.title}`}><ArrowRight /></Button></article>)}
+              {services.map((service) => <article key={service.title} role="button" tabIndex={0} onClick={() => setDetailService(service.title)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setDetailService(service.title); } }} aria-label={`Ver detalle de ${service.title}`} className="flex min-h-[225px] cursor-pointer flex-col border border-border bg-card p-6 outline-none transition-colors hover:bg-secondary/60 focus-visible:ring-2 focus-visible:ring-ring"><service.icon size={36} strokeWidth={1.2} /><h3 className="mt-5 font-display text-2xl font-semibold leading-tight">{service.title}</h3><p className="mt-2 text-sm leading-relaxed">{service.description}</p><span className="mt-auto flex justify-end pt-4" aria-hidden="true"><ArrowRight size={18} /></span></article>)}
             </div>
           </div>
         </section>
@@ -259,6 +272,50 @@ function Index() {
           </DialogDescription>
           <DialogClose asChild><Button variant="gold" className="mt-2 justify-self-start">Entendido <ArrowRight /></Button></DialogClose>
         </DialogContent>
+      </Dialog>
+      <Dialog open={detailService !== null} onOpenChange={(open) => { if (!open) setDetailService(null); }}>
+        {(() => {
+          const service = services.find((item) => item.title === detailService);
+          if (!service) return null;
+          return (
+            <DialogContent className="max-h-[88vh] w-[calc(100%-2rem)] max-w-3xl gap-0 overflow-y-auto rounded-lg p-0">
+              <div className="flex items-start gap-4 border-b border-border p-6 pr-12 md:p-7">
+                <span className="grid size-14 shrink-0 place-items-center rounded-full bg-secondary"><service.icon size={28} strokeWidth={1.3} aria-hidden="true" /></span>
+                <div className="min-w-0">
+                  <DialogTitle className="font-display text-3xl font-semibold leading-tight">{service.title}</DialogTitle>
+                  <DialogDescription className="mt-1.5 text-sm leading-relaxed">{service.description}</DialogDescription>
+                </div>
+              </div>
+              <div className="grid gap-7 p-6 md:grid-cols-[1.5fr_1fr] md:p-7">
+                <div className="space-y-7">
+                  <section>
+                    <h3 className="section-label flex items-center gap-2 text-primary"><FileText size={15} strokeWidth={1.6} aria-hidden="true" /> ¿Qué necesitás?</h3>
+                    <ul className="mt-3 space-y-2 text-sm leading-relaxed">{service.needs.map((item) => <li key={item} className="flex gap-2.5"><span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />{item}</li>)}</ul>
+                  </section>
+                  <section>
+                    <h3 className="section-label flex items-center gap-2 text-primary"><Settings size={15} strokeWidth={1.6} aria-hidden="true" /> ¿Cómo funciona?</h3>
+                    <ol className="mt-3 space-y-2.5">{service.steps.map((step, index) => <li key={step} className="flex items-start gap-3 text-sm leading-relaxed"><span className="grid size-6 shrink-0 place-items-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground">{index + 1}</span>{step}</li>)}</ol>
+                  </section>
+                  <section>
+                    <h3 className="section-label flex items-center gap-2 text-primary"><Info size={15} strokeWidth={1.6} aria-hidden="true" /> Información importante</h3>
+                    <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">{service.notes.map((note) => <li key={note} className="flex gap-2.5"><span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-primary/40" aria-hidden="true" />{note}</li>)}</ul>
+                  </section>
+                </div>
+                <aside className="flex h-fit flex-col gap-5 self-start bg-secondary p-5">
+                  <div>
+                    <h3 className="section-label text-primary">¿Te interesa este trámite?</h3>
+                    <p className="mt-2 text-sm leading-relaxed">Podés consultarnos para recibir más información o iniciar tu caso.</p>
+                    <DialogClose asChild><Button variant="gold" className="mt-4 h-11 w-full justify-center rounded-sm text-xs font-semibold uppercase tracking-wider" onClick={() => chooseService(service.title)}>Consultar por este trámite <ArrowRight /></Button></DialogClose>
+                  </div>
+                  <div className="flex items-start gap-3 border-t border-border pt-4">
+                    <ShieldCheck size={24} strokeWidth={1.4} className="shrink-0 text-primary" aria-hidden="true" />
+                    <div><p className="text-sm font-semibold leading-snug">Tu documentación está segura</p><p className="mt-1 text-xs leading-relaxed text-muted-foreground">Manejamos tu información con confidencialidad y responsabilidad.</p></div>
+                  </div>
+                </aside>
+              </div>
+            </DialogContent>
+          );
+        })()}
       </Dialog>
       <footer className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 border-t border-primary-foreground/25 px-6 py-7 md:flex-row md:items-center md:justify-between md:px-10"><span className="text-xs">© {new Date().getFullYear()} Gestoria de Documentacion</span><div className="flex items-center gap-4"><a className="inline-flex size-14 items-center justify-center border border-primary-foreground/30 text-primary-foreground transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram" title="Instagram"><Instagram size={30} strokeWidth={1.5} aria-hidden="true" /></a><a className="inline-flex size-14 items-center justify-center border border-primary-foreground/30 text-primary-foreground transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" href={`mailto:${companyEmail}`} aria-label="Enviar correo" title="Correo"><Mail size={30} strokeWidth={1.5} aria-hidden="true" /></a></div></div></footer>
     </div>
