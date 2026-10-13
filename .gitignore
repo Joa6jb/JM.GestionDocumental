@@ -30,3 +30,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Firebase (caché local del CLI) y variables de entorno
+.firebase/
+.env
+.env.*
+!.env.example

@@ -49,6 +49,7 @@
   --gold: oklch(0.81 0.105 83);
   --gold-hover: oklch(0.86 0.09 83);
   --gold-border: oklch(0.89 0.065 83);
+  --error-on-dark: oklch(0.85 0.09 25);
   --whatsapp: oklch(0.52 0.15 151);
   --whatsapp-hover: oklch(0.46 0.14 151);
   --floating-shadow: 0 6px 22px color-mix(in oklch, var(--primary) 24%, transparent);
@@ -63,14 +64,27 @@
   ::selection { background: var(--accent); color: var(--foreground); }
 }
 
+/* Foco visible para teclado. Va fuera de @layer para que no lo anulen las
+   utilidades "outline-none" de los componentes. Oscuro sobre fondos claros,
+   dorado sobre fondos oscuros (header, formulario, footer y diálogo de confirmación). */
+:where(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+header :focus-visible, #consulta :focus-visible, footer :focus-visible, .inquiry-confirmation :focus-visible {
+  outline-color: var(--gold);
+}
+/* El botón de cada tarjeta ocupa toda la tarjeta: el aro se dibuja en la tarjeta (has-[:focus-visible]). */
+[data-card-trigger]:focus-visible { outline: none; }
+
 @utility font-display { font-family: var(--font-display); }
 @utility section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
-@utility hero-photo { background-image: linear-gradient(90deg, var(--background) 0%, color-mix(in oklch, var(--background) 86%, transparent) 35%, transparent 63%), url('./assets/passport-desk.jpg'); background-position: center; background-size: cover; }
-@utility paper-photo { background-image: linear-gradient(90deg, color-mix(in oklch, var(--secondary) 10%, transparent), var(--secondary) 48%), url('./assets/passport-desk.jpg'); background-position: left center; background-size: cover; }
 @utility inquiry-shade { background: var(--inquiry-overlay); }
+.hero-image { object-position: center; }
+.hero-shade { background: linear-gradient(90deg, var(--background) 0%, color-mix(in oklch, var(--background) 86%, transparent) 35%, transparent 63%); }
 @media (max-width: 767px) {
-  .hero-photo { background-image: linear-gradient(180deg, var(--background) 0%, color-mix(in oklch, var(--background) 94%, transparent) 42%, color-mix(in oklch, var(--background) 25%, transparent) 73%), url('./assets/passport-desk.jpg'); background-position: 65% center; }
-  .paper-photo { background-image: linear-gradient(90deg, color-mix(in oklch, var(--secondary) 90%, transparent), var(--secondary)), url('./assets/passport-desk.jpg'); }
+  .hero-image { object-position: 65% center; }
+  .hero-shade { background: linear-gradient(180deg, var(--background) 0%, color-mix(in oklch, var(--background) 94%, transparent) 42%, color-mix(in oklch, var(--background) 25%, transparent) 73%); }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
@@ -103,6 +117,7 @@ header nav a::after {
   transform-origin: left;
   transition: transform 220ms ease;
 }
+header nav a[aria-current="true"]::after { transform: scaleX(1); }
 #consulta input, #consulta select, #consulta textarea {
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
@@ -136,10 +151,10 @@ main article svg, #process-title + div svg { transition: transform 250ms ease; }
   section[aria-labelledby="process-title"] .relative:hover svg { transform: rotate(-6deg); }
   #nosotros [aria-label="Por qué elegirnos"] > div:hover svg { transform: translateY(-3px); }
   footer a:hover svg { transform: translateY(-2px); }
-  main button:hover, main a:hover { transform: translateY(-2px); }
+  main :is(a, button):not([data-card-trigger]):hover { transform: translateY(-2px); }
   main button:hover .lucide-arrow-right, main a:hover .lucide-arrow-right { transform: translateX(3px); }
 }
-main button:active, main a:active { transform: translateY(0); }
+main :is(a, button):not([data-card-trigger]):active { transform: translateY(0); }
 footer { padding-bottom: 70px; }
 @media (max-width: 767px) {
   #consulta button[type="submit"] { width: calc(100% - 76px); }
