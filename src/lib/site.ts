@@ -4,10 +4,9 @@
 export const siteName = "JM Gestión Documental";
 export const siteTagline = "Gestoría de documentación";
 
-// Dominio público del sitio. Si más adelante se conecta un dominio propio
-// (por ejemplo jmgestiondocumental.com), cambiá solo esta línea y también
-// la URL de public/sitemap.xml y public/robots.txt.
-export const siteUrl = "https://jm-gestion-documental.web.app";
+// Dominio público del sitio (sin barra final). Si cambia, actualizá también la URL de
+// public/sitemap.xml y la línea "Sitemap:" de public/robots.txt.
+export const siteUrl = "https://jmgestiondocumental.com.ar";
 
 export const companyEmail = "j.m.gestiondocumental@gmail.com";
 export const instagramUrl = "https://www.instagram.com/joaquinfrnz/";

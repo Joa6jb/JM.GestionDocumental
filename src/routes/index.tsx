@@ -28,6 +28,7 @@ import heroDesk800 from "@/assets/hero-desk-800.webp";
 import processDesk from "@/assets/process-desk.webp";
 import logoAsset from "@/assets/logo.webp";
 import inquiryDesk from "@/assets/inquiry-desk.webp";
+import { useReveal } from "@/hooks/use-reveal";
 import { services } from "@/data/services";
 import { fieldOrder, inquirySchema, type FieldName } from "@/lib/inquiry";
 import {
@@ -109,7 +110,7 @@ type FieldProps = {
 
 function Field({ label, name, error, required = true, wide = false, children }: FieldProps) {
   return (
-    <div className={wide ? "sm:col-span-2" : undefined}>
+    <div data-reveal="scroll" className={wide ? "sm:col-span-2" : undefined}>
       <label className="block text-sm font-semibold">
         {label}
         {required && <span aria-hidden="true"> *</span>}
@@ -144,52 +145,7 @@ function Index() {
   const [activeSection, setActiveSection] = useState("inicio");
   const servicesRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (motionPreference.matches || !("IntersectionObserver" in window)) return;
-    const elements = Array.from(document.querySelectorAll<HTMLElement>([
-      "header > div",
-      "#inicio .max-w-\\[560px\\] > *",
-      "#tramites .section-label", "#tramites h2", "#tramites article",
-      "section[aria-labelledby='process-title'] .text-center > .section-label",
-      "#process-title", "section[aria-labelledby='process-title'] .relative.flex",
-      "#nosotros .max-w-xl > *", "#nosotros [aria-label='Por qué elegirnos'] > *",
-      "#consulta .mx-auto > div > *", "#consulta form label", "#consulta form > .mt-5",
-      "footer > div > *",
-    ].join(",")));
-    const reveal = (element: Element) => {
-      element.classList.remove("reveal-pending");
-      observer.unobserve(element);
-    };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) reveal(entry.target);
-      });
-    }, { threshold: 0.08 });
-    elements.forEach((element) => {
-      const siblingIndex = element.parentElement ? Array.from(element.parentElement.children).indexOf(element) : 0;
-      element.dataset["motionStep"] = String(Math.min(siblingIndex, 3));
-      element.classList.add("section-reveal", "reveal-pending");
-      observer.observe(element);
-    });
-    const revealFocused = (event: FocusEvent) => {
-      if (!(event.target instanceof Element)) return;
-      const pending = event.target.closest(".reveal-pending");
-      if (pending) reveal(pending);
-    };
-    const revealAll = () => { if (motionPreference.matches) elements.forEach(reveal); };
-    document.addEventListener("focusin", revealFocused);
-    motionPreference.addEventListener("change", revealAll);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("focusin", revealFocused);
-      motionPreference.removeEventListener("change", revealAll);
-      elements.forEach((element) => {
-        element.classList.remove("section-reveal", "reveal-pending");
-        delete element.dataset["motionStep"];
-      });
-    };
-  }, []);
+  useReveal();
 
   // Resalta en el menú la sección que se está viendo.
   useEffect(() => {
@@ -327,13 +283,13 @@ function Index() {
         Saltar al contenido
       </a>
       <header className="relative z-20 bg-primary text-primary-foreground">
-        <div className="mx-auto grid h-20 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 md:h-22 md:px-10">
+        <div data-reveal="load" className="mx-auto grid h-20 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 md:h-22 md:px-10">
           <a
             href="#inicio"
             className="flex min-w-0 items-center gap-3"
             aria-label={`${siteName}, ir al inicio`}
           >
-            <div className="relative size-16 shrink-0 overflow-hidden rounded-full md:size-[4.75rem]">
+            <div className="relative size-14 shrink-0 overflow-hidden rounded-full sm:size-16 md:size-[4.75rem]">
               <img
                 src={logoAsset}
                 alt={`Logo de ${siteName}`}
@@ -343,10 +299,10 @@ function Index() {
               />
             </div>
             <span className="min-w-0 leading-none">
-              <strong className="block truncate font-display text-xl font-semibold md:text-2xl">
+              <strong className="block truncate font-display text-lg font-semibold min-[380px]:text-xl md:text-2xl">
                 {siteName}
               </strong>
-              <small className="mt-1 block text-[11px] font-medium uppercase tracking-[0.18em] opacity-80">
+              <small className="mt-1 hidden text-[11px] font-medium uppercase tracking-[0.18em] opacity-80 min-[420px]:block">
                 {siteTagline}
               </small>
             </span>
@@ -483,14 +439,14 @@ function Index() {
           <div className="hero-shade absolute inset-0 -z-10" aria-hidden="true" />
           <div className="mx-auto w-full max-w-7xl px-6 py-16 md:px-10">
             <div className="max-w-[560px]">
-              <div className="section-label mb-7 flex items-center gap-3">
+              <div data-reveal="load" className="section-label mb-7 flex items-center gap-3">
                 <span className="h-px w-8 bg-primary" /> TU GESTIÓN, EN BUENAS MANOS
               </div>
-              <h1 className="font-display text-5xl font-semibold leading-[1.04] md:text-7xl">
+              <h1 data-reveal="load" className="font-display text-5xl font-semibold leading-[1.04] md:text-7xl">
                 Ciudadanía española
                 <br />y documentación
               </h1>
-              <p className="mt-7 max-w-[450px] text-[15px] leading-[1.75] md:text-base">
+              <p data-reveal="load" className="mt-7 max-w-[450px] text-[15px] leading-[1.75] md:text-base">
                 Te acompañamos en cada paso para que tu trámite sea más simple, rápido y seguro. Nos
                 especializamos en la gestión de ciudadanía española y en la tramitación de
                 documentos.
@@ -498,6 +454,7 @@ function Index() {
               <Button
                 asChild
                 size="lg"
+                data-reveal="load"
                 className="mt-8 h-12 rounded-none px-7 text-xs font-semibold uppercase tracking-wider"
               >
                 <a href="#consulta">
@@ -510,16 +467,17 @@ function Index() {
 
         <section id="tramites" className="bg-background py-17 md:py-21">
           <div className="mx-auto max-w-7xl px-6 md:px-10">
-            <div className="section-label flex items-center gap-3">
+            <div data-reveal="scroll" className="section-label flex items-center gap-3">
               <span className="h-px w-8 bg-primary" /> NUESTROS SERVICIOS
             </div>
-            <h2 className="mt-4 font-display text-4xl font-semibold leading-tight md:text-5xl">
+            <h2 data-reveal="scroll" className="mt-4 font-display text-4xl font-semibold leading-tight md:text-5xl">
               Tus trámites, en buenas manos
             </h2>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {services.map((service) => (
                 <article
                   key={service.title}
+                  data-reveal="scroll"
                   className="relative flex min-h-[225px] cursor-pointer flex-col border border-border bg-card p-6 transition-colors hover:bg-secondary/60 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary"
                 >
                   <service.icon size={36} strokeWidth={1.2} aria-hidden="true" />
@@ -561,9 +519,10 @@ function Index() {
           <div className="process-shade absolute inset-0 -z-10" />
           <div className="mx-auto max-w-7xl px-6 md:px-10">
             <div className="text-center">
-              <div className="section-label">¿CÓMO FUNCIONA?</div>
+              <div data-reveal="scroll" className="section-label">¿CÓMO FUNCIONA?</div>
               <h2
                 id="process-title"
+                data-reveal="scroll"
                 className="mt-2 font-display text-4xl font-semibold md:text-5xl"
               >
                 Es muy simple
@@ -596,7 +555,7 @@ function Index() {
                   text: "Te mantenemos informado en cada etapa hasta la finalización de tu gestión.",
                 },
               ].map((step) => (
-                <div key={step.number} className="relative flex flex-col items-center">
+                <div key={step.number} data-reveal="scroll" className="relative flex flex-col items-center">
                   <div className="flex items-center gap-3">
                     <span className="grid size-9 place-items-center rounded-full bg-primary font-display text-xl text-primary-foreground">
                       {step.number}
@@ -616,18 +575,18 @@ function Index() {
         <section id="nosotros" className="bg-background py-14 md:py-18" aria-labelledby="about-title">
           <div className="mx-auto grid max-w-7xl items-center gap-9 px-6 md:grid-cols-[1.2fr_1fr] md:gap-16 md:px-10">
             <div className="max-w-xl">
-              <div className="section-label flex items-center gap-3">
+              <div data-reveal="scroll" className="section-label flex items-center gap-3">
                 <span className="h-px w-6 bg-primary" /> SOBRE NOSOTROS
               </div>
-              <h2 id="about-title" className="mt-3 font-display text-4xl font-semibold md:text-5xl">
+              <h2 id="about-title" data-reveal="scroll" className="mt-3 font-display text-4xl font-semibold md:text-5xl">
                 Somos JM
               </h2>
-              <p className="mt-4 text-sm leading-relaxed md:text-base">
+              <p data-reveal="scroll" className="mt-4 text-sm leading-relaxed md:text-base">
                 Somos Joaquin y Maite, creamos {siteName} con el propósito de brindar
                 acompañamiento claro, responsable y personalizado a todos aquellos que necesiten
                 realizar trámites relacionados con la ciudadanía española y documentación.
               </p>
-              <p className="mt-4 text-sm leading-relaxed md:text-base">
+              <p data-reveal="scroll" className="mt-4 text-sm leading-relaxed md:text-base">
                 Buscamos que cada persona pueda entender el trámite a realizar, conocer qué necesita
                 durante el proceso y contar con nosotros durante todo el procedimiento.
               </p>
@@ -641,7 +600,7 @@ function Index() {
                 { icon: Clock3, title: "Atención personalizada", text: "Te asesoramos en todo el proceso." },
                 { icon: FileText, title: "Experiencia y seriedad", text: "Gestión eficiente y confiable." },
               ].map((item) => (
-                <div key={item.title} className="flex items-start gap-5">
+                <div key={item.title} data-reveal="scroll" className="flex items-start gap-5">
                   <item.icon size={34} strokeWidth={1.3} className="shrink-0" aria-hidden="true" />
                   <div>
                     <h3 className="font-display text-xl font-bold leading-tight">{item.title}</h3>
@@ -669,11 +628,11 @@ function Index() {
           <div className="inquiry-shade absolute inset-0 -z-10" />
           <div className="mx-auto grid max-w-7xl gap-8 px-6 md:grid-cols-[0.85fr_1.65fr] md:gap-14 md:px-10">
             <div>
-              <div className="section-label flex items-center gap-3">
+              <div data-reveal="scroll" className="section-label flex items-center gap-3">
                 <span className="h-px w-6 bg-gold" /> ¿TENÉS UNA CONSULTA?
               </div>
-              <h2 className="mt-3 font-display text-4xl font-semibold">Contanos tu consulta</h2>
-              <p className="mt-3 text-sm opacity-90">Te contactaremos a la brevedad.</p>
+              <h2 data-reveal="scroll" className="mt-3 font-display text-4xl font-semibold">Contanos tu consulta</h2>
+              <p data-reveal="scroll" className="mt-3 text-sm opacity-90">Te contactaremos a la brevedad.</p>
             </div>
             <form
               onSubmit={submitInquiry}
@@ -770,11 +729,23 @@ function Index() {
                   {error}
                 </p>
               )}
-              <div className="mt-5 flex flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <p className="max-w-sm text-xs leading-relaxed opacity-90">
-                  Los campos con * son obligatorios. Al continuar, se abrirá Gmail con la consulta
-                  preparada. Revisá y enviá el mensaje desde ahí.
-                </p>
+              <div data-reveal="scroll" className="mt-5 flex flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-sm space-y-1.5 text-xs leading-relaxed opacity-90">
+                  <p>
+                    Los campos con * son obligatorios. Al continuar, se abrirá Gmail con la consulta
+                    preparada. Revisá y enviá el mensaje desde ahí.
+                  </p>
+                  <p>
+                    ¿No se abrió Gmail? Escribinos directamente a{" "}
+                    <a
+                      className="font-semibold underline underline-offset-4"
+                      href={`mailto:${companyEmail}`}
+                    >
+                      {companyEmail}
+                    </a>
+                    .
+                  </p>
+                </div>
                 <Button
                   type="submit"
                   variant="gold"
@@ -816,6 +787,16 @@ function Index() {
                 desde ahí.
               </p>
               <p>Cuando lo recibamos, vamos a revisarlo para indicarte los próximos pasos.</p>
+              <p>
+                ¿No se abrió Gmail? Escribinos directamente a{" "}
+                <a
+                  className="font-semibold text-gold underline underline-offset-4"
+                  href={`mailto:${companyEmail}`}
+                >
+                  {companyEmail}
+                </a>
+                .
+              </p>
               <p className="font-semibold text-gold">{siteName}</p>
             </div>
           </DialogDescription>
@@ -940,7 +921,7 @@ function Index() {
       </Dialog>
       <footer className="bg-primary text-primary-foreground">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 border-t border-primary-foreground/25 px-6 py-7 md:flex-row md:items-center md:justify-between md:px-10">
-          <div className="space-y-1.5 text-sm">
+          <div data-reveal="scroll" className="space-y-1.5 text-sm">
             <p className="text-xs">
               © {new Date().getFullYear()} {siteName}
             </p>
@@ -960,7 +941,7 @@ function Index() {
               </a>
             </p>
           </div>
-          <div className="flex items-center gap-4">
+          <div data-reveal="scroll" className="flex items-center gap-4">
             <a
               className="inline-flex size-14 items-center justify-center border border-primary-foreground/30 text-primary-foreground transition-colors hover:border-gold hover:text-gold"
               href={instagramUrl}

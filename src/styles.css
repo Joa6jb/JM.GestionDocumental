@@ -95,15 +95,33 @@ section[aria-labelledby="process-title"] > .mx-auto { position: relative; z-inde
 @media (max-width: 767px) {
   section[aria-labelledby="process-title"] > img { object-position: 42% center; }
 }
-.section-reveal {
+/* ---- Animaciones de entrada ----
+   Se marcan en el JSX con data-reveal:
+   - "load":   header y hero. Animación CSS al cargar, no depende de JavaScript.
+   - "scroll": el resto. Nacen ocultos (solo si <html> tiene la clase "reveal", puesta por
+               el script de arranque antes del primer pintado) y aparecen al entrar en
+               pantalla, cuando useReveal() les agrega data-revealed.
+   El escalonado sale de la posición del elemento entre sus hermanos. */
+@keyframes reveal-rise { from { opacity: 0; transform: translateY(14px); } }
+[data-reveal]:nth-child(2) { --reveal-delay: 60ms; }
+[data-reveal]:nth-child(3) { --reveal-delay: 120ms; }
+[data-reveal]:nth-child(n + 4) { --reveal-delay: 180ms; }
+[data-reveal]:focus-within { --reveal-delay: 0ms; }
+@media (prefers-reduced-motion: no-preference) {
+  /* "backwards": solo actúa antes de empezar, así no pisa los efectos hover después. */
+  [data-reveal="load"] {
+    animation: reveal-rise 580ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+}
+.reveal [data-reveal="scroll"] {
   transition: opacity 580ms ease, transform 580ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease, border-color 200ms ease;
   transition-delay: var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), 0ms, 0ms;
 }
-.section-reveal[data-motion-step="1"] { --reveal-delay: 60ms; }
-.section-reveal[data-motion-step="2"] { --reveal-delay: 120ms; }
-.section-reveal[data-motion-step="3"] { --reveal-delay: 180ms; }
-.reveal-pending { opacity: 0; transform: translateY(14px); }
-.section-reveal:focus-within { --reveal-delay: 0ms; }
+.reveal [data-reveal="scroll"]:not([data-revealed]) { opacity: 0; transform: translateY(14px); }
+@media print {
+  .reveal [data-reveal="scroll"]:not([data-revealed]) { opacity: 1; transform: none; }
+}
 header nav a { position: relative; transition: opacity 200ms ease; }
 header nav a::after {
   content: "";
@@ -146,7 +164,7 @@ main button, main a, footer a { transition: background-color 200ms ease, color 2
 main article svg, #process-title + div svg { transition: transform 250ms ease; }
 @media (hover: hover) {
   header nav a:hover::after, header nav a:focus-visible::after { transform: scaleX(1); }
-  main article:not(.reveal-pending):hover { transform: translateY(-4px); --reveal-delay: 0ms; }
+  main article:hover { transform: translateY(-4px); --reveal-delay: 0ms; }
   main article:hover svg { transform: translateY(-3px); }
   section[aria-labelledby="process-title"] .relative:hover svg { transform: rotate(-6deg); }
   #nosotros [aria-label="Por qué elegirnos"] > div:hover svg { transform: translateY(-3px); }
@@ -162,8 +180,7 @@ footer { padding-bottom: 70px; }
 .inquiry-confirmation { animation-duration: 250ms; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  .reveal-pending { opacity: 1; transform: none; }
-  .section-reveal { transition-delay: 0ms; }
+  .reveal [data-reveal="scroll"]:not([data-revealed]) { opacity: 1; transform: none; }
   main article:hover, main button:hover, main a:hover, .whatsapp-button.whatsapp-floating:hover,
   main svg, footer a svg { transform: none !important; }
 }

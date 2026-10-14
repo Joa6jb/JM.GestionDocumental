@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://jm-gestion-documental.web.app/sitemap.xml
+Sitemap: https://jmgestiondocumental.com.ar/sitemap.xml

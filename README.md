@@ -2,7 +2,7 @@
 
 Sitio web de **JM Gestión Documental**: gestoría de ciudadanía española, apostillado, traducciones y legalizaciones.
 
-- Producción: https://jm-gestion-documental.web.app
+- Producción: https://jmgestiondocumental.com.ar
 - Stack: TanStack Start (React 19) + Vite + Tailwind CSS 4 + componentes Radix/shadcn
 - Hosting: Firebase Hosting (proyecto `jm-gestion-documental`), con deploy automático al hacer push a `main`
 
@@ -33,6 +33,15 @@ npm run lint         # ESLint + Prettier
 ## Formulario de consulta
 
 El formulario **no usa un servidor**: valida los datos y abre un borrador de correo (Gmail) dirigido a `companyEmail`, que la persona revisa y envía desde su propia cuenta.
+
+## Animaciones de entrada
+
+Se controlan con un atributo en el JSX, no con selectores de clases:
+
+- `data-reveal="load"`: se anima al cargar la página, solo con CSS (header y hero).
+- `data-reveal="scroll"`: aparece cuando entra en pantalla (lo resuelve `src/hooks/use-reveal.ts`).
+
+Para animar un elemento nuevo alcanza con agregarle ese atributo. El escalonado entre hermanos y los estilos están en `src/styles.css` (sección "Animaciones de entrada"). Con "reducir movimiento" activado en el dispositivo, no se anima nada.
 
 ## Imágenes
 
