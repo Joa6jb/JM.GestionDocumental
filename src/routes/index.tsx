@@ -817,52 +817,34 @@ function Index() {
           const service = services.find((item) => item.title === detailService);
           if (!service) return null;
           return (
-            <DialogContent className="max-h-[88vh] w-[calc(100%-2rem)] max-w-3xl gap-0 overflow-y-auto rounded-lg p-0">
-              <div className="flex items-start gap-4 border-b border-border p-6 pr-12 md:p-7">
-                <span className="grid size-14 shrink-0 place-items-center rounded-full bg-secondary">
-                  <service.icon size={28} strokeWidth={1.3} aria-hidden="true" />
+            <DialogContent className="max-h-[88vh] w-[calc(100%-2rem)] max-w-4xl gap-0 overflow-y-auto rounded-lg p-0">
+              <div className="flex items-start gap-4 border-b border-border p-5 pr-12 md:p-6">
+                <span className="grid size-12 shrink-0 place-items-center rounded-full bg-secondary">
+                  <service.icon size={24} strokeWidth={1.3} aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                  <DialogTitle className="font-display text-3xl font-semibold leading-tight">
+                  <DialogTitle className="font-display text-2xl font-semibold leading-tight md:text-3xl">
                     {service.title}
                   </DialogTitle>
-                  <DialogDescription className="mt-1.5 text-sm leading-relaxed">
+                  <DialogDescription className="mt-1 text-sm leading-relaxed">
                     {service.description}
                   </DialogDescription>
                 </div>
               </div>
-              <div className="grid gap-7 p-6 md:grid-cols-[1.5fr_1fr] md:p-7">
-                <div className="space-y-7">
+              <div className="grid gap-x-8 gap-y-5 p-5 md:grid-cols-[1.5fr_1fr] md:p-6">
+                <div className="space-y-5">
                   {service.about ? (
-                    <section>
+                    <section className="space-y-2.5 text-sm leading-relaxed">
                       {service.about.split("\n\n").map((paragraph) => (
-                        <p key={paragraph} className="text-sm leading-relaxed">
-                          {paragraph}
-                        </p>
+                        <p key={paragraph}>{paragraph}</p>
                       ))}
                     </section>
                   ) : null}
                   <section>
                     <h3 className="section-label flex items-center gap-2 text-primary">
-                      <FileText size={15} strokeWidth={1.6} aria-hidden="true" /> ¿Qué necesitás?
-                    </h3>
-                    <ul className="mt-3 space-y-2 text-sm leading-relaxed">
-                      {service.needs.map((item) => (
-                        <li key={item} className="flex gap-2.5">
-                          <span
-                            className="mt-[7px] size-1.5 shrink-0 rounded-full bg-gold"
-                            aria-hidden="true"
-                          />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-                  <section>
-                    <h3 className="section-label flex items-center gap-2 text-primary">
                       <Settings size={15} strokeWidth={1.6} aria-hidden="true" /> ¿Cómo funciona?
                     </h3>
-                    <ol className="mt-3 space-y-2.5">
+                    <ol className="mt-2.5 space-y-2.5">
                       {service.steps.map((step, index) => (
                         <li key={step} className="flex items-start gap-3 text-sm leading-relaxed">
                           <span className="grid size-6 shrink-0 place-items-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground">
@@ -877,7 +859,7 @@ function Index() {
                     <h3 className="section-label flex items-center gap-2 text-primary">
                       <Info size={15} strokeWidth={1.6} aria-hidden="true" /> Información importante
                     </h3>
-                    <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
+                    <ul className="mt-2.5 space-y-2 text-sm leading-relaxed text-muted-foreground">
                       {service.notes.map((note) => (
                         <li key={note} className="flex gap-2.5">
                           <span
@@ -890,39 +872,57 @@ function Index() {
                     </ul>
                   </section>
                 </div>
-                <aside className="flex h-fit flex-col gap-5 self-start bg-secondary p-5">
-                  <div>
-                    <h3 className="section-label text-primary">¿Te interesa este trámite?</h3>
-                    <p className="mt-2 text-sm leading-relaxed">
-                      Podés consultarnos para recibir más información o iniciar tu caso.
-                    </p>
-                    <DialogClose asChild>
-                      <Button
-                        variant="gold"
-                        className="mt-4 h-11 w-full justify-center rounded-sm text-xs font-semibold uppercase tracking-wider"
-                        onClick={() => chooseService(service.title)}
-                      >
-                        Consultar por este trámite <ArrowRight />
-                      </Button>
-                    </DialogClose>
-                  </div>
-                  <div className="flex items-start gap-3 border-t border-border pt-4">
-                    <ShieldCheck
-                      size={24}
-                      strokeWidth={1.4}
-                      className="shrink-0 text-primary"
-                      aria-hidden="true"
-                    />
+                <div className="space-y-5 self-start">
+                  <section>
+                    <h3 className="section-label flex items-center gap-2 text-primary">
+                      <FileText size={15} strokeWidth={1.6} aria-hidden="true" /> ¿Qué necesitás?
+                    </h3>
+                    <ul className="mt-2.5 space-y-2 text-sm leading-relaxed">
+                      {service.needs.map((item) => (
+                        <li key={item} className="flex gap-2.5">
+                          <span
+                            className="mt-[7px] size-1.5 shrink-0 rounded-full bg-gold"
+                            aria-hidden="true"
+                          />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                  <aside className="flex flex-col gap-4 bg-secondary p-5">
                     <div>
-                      <p className="text-sm font-semibold leading-snug">
-                        Tu documentación está segura
+                      <h3 className="section-label text-primary">¿Te interesa este trámite?</h3>
+                      <p className="mt-2 text-sm leading-relaxed">
+                        Podés consultarnos para recibir más información o iniciar tu caso.
                       </p>
-                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                        Manejamos tu información con confidencialidad y responsabilidad.
-                      </p>
+                      <DialogClose asChild>
+                        <Button
+                          variant="gold"
+                          className="mt-3.5 h-11 w-full justify-center rounded-sm text-xs font-semibold uppercase tracking-wider"
+                          onClick={() => chooseService(service.title)}
+                        >
+                          Consultar por este trámite <ArrowRight />
+                        </Button>
+                      </DialogClose>
                     </div>
-                  </div>
-                </aside>
+                    <div className="flex items-start gap-3 border-t border-border pt-4">
+                      <ShieldCheck
+                        size={24}
+                        strokeWidth={1.4}
+                        className="shrink-0 text-primary"
+                        aria-hidden="true"
+                      />
+                      <div>
+                        <p className="text-sm font-semibold leading-snug">
+                          Tu documentación está segura
+                        </p>
+                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                          Manejamos tu información con confidencialidad y responsabilidad.
+                        </p>
+                      </div>
+                    </div>
+                  </aside>
+                </div>
               </div>
             </DialogContent>
           );
