@@ -833,6 +833,15 @@ function Index() {
               </div>
               <div className="grid gap-7 p-6 md:grid-cols-[1.5fr_1fr] md:p-7">
                 <div className="space-y-7">
+                  {service.about ? (
+                    <section>
+                      {service.about.split("\n\n").map((paragraph) => (
+                        <p key={paragraph} className="text-sm leading-relaxed">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </section>
+                  ) : null}
                   <section>
                     <h3 className="section-label flex items-center gap-2 text-primary">
                       <FileText size={15} strokeWidth={1.6} aria-hidden="true" /> ¿Qué necesitás?
