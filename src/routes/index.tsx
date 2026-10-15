@@ -838,7 +838,6 @@ function Index() {
                       {service.about.split("\n\n").map((paragraph) => (
                         <p key={paragraph} className="text-sm leading-relaxed">
                           {paragraph}
-                          <br />
                         </p>
                       ))}
                     </section>
